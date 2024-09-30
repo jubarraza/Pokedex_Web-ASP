@@ -56,6 +56,50 @@ namespace Negocio
 
         }
 
+        public List<Pokemon> ListarConSP()
+        {
+            List<Pokemon> lista = new List<Pokemon>();
+            AccesoDatos datos = new AccesoDatos();
+
+
+            try
+            {
+                datos.SetearProcedure("spListar");
+                datos.EjecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Pokemon aux = new Pokemon();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Numero = datos.Lector.GetInt32(0); //pide especificacion del tipo de dato, asigna columna por indice de la consulta
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    if (!(datos.Lector["UrlImagen"] is DBNull))
+                    {
+                        aux.UrlImagen = (string)datos.Lector["UrlImagen"];
+                    }
+
+                    //como no lo hicimos en el contructor de POKEMON creamos el elemento de su composicion
+                    aux.Tipo = new Elemento();
+                    aux.Tipo.ID = (int)datos.Lector["IdTipo"];
+                    aux.Tipo.Descripcion = (string)datos.Lector["Tipo"];
+                    aux.Debilidad = new Elemento();
+                    aux.Debilidad.ID = (int)datos.Lector["IdDebilidad"];
+                    aux.Debilidad.Descripcion = (string)datos.Lector["Debilidad"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally { datos.CerrarConexion(); }
+        }
+
         public void Agregar(Pokemon nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
