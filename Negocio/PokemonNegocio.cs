@@ -329,5 +329,20 @@ namespace Negocio
                 throw ex;
             }
         }
+        
+        public Pokemon Buscar(int id)
+        {
+            PokemonNegocio negocio = new PokemonNegocio();
+            List<Pokemon> lista = negocio.ListarConSP();
+
+            foreach (Pokemon p in lista)
+            {
+                if (p.Id == id) { 
+                    return p;
+                }
+            }
+
+            return new Pokemon() ;
+        }
     }
 }
