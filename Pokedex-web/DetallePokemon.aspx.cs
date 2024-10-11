@@ -14,20 +14,100 @@ namespace Pokedex_web
         public Pokemon pokeSeleccionado { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
-            PokemonNegocio negocio = new PokemonNegocio();
+            txtID.Enabled = false;
 
-            if(Request.QueryString["id"] != null)
+            try
             {
-                pokeSeleccionado = negocio.Buscar(int.Parse(Request.QueryString["id"]));
+                if (!IsPostBack)
+                {
+                    //Carga de pantalla INICIAL
+                    ElementoNegocio negocioElemento = new ElementoNegocio();
 
-                txtID.Text = pokeSeleccionado.Id.ToString();
-                txtID.ReadOnly = true;
-                txtNombre.Text = pokeSeleccionado.Nombre;
-                txtDescripcion.Text = pokeSeleccionado.Descripcion;
-                txtTipo.Text = pokeSeleccionado.Tipo.Descripcion;
-                txtDebilidad.Text = pokeSeleccionado.Debilidad.Descripcion;
+                    ddlTipo.DataSource = negocioElemento.listar();
+                    ddlTipo.DataValueField = "ID";
+                    ddlTipo.DataTextField = "Descripcion";
+                    ddlTipo.DataBind();
+
+                    ddlDebilidad.DataSource = negocioElemento.listar();
+                    ddlDebilidad.DataValueField = "ID";
+                    ddlDebilidad.DataTextField = "Descripcion";
+                    ddlDebilidad.DataBind();
+
+                    PokemonNegocio negocioPoke = new PokemonNegocio();
+                    ddlEvolucion.DataSource = negocioPoke.ListarConSP();
+                    ddlEvolucion.DataValueField = "Id";
+                    ddlEvolucion.DataTextField = "Nombre";
+                    ddlEvolucion.DataBind();
+
+
+
+                    //REVISA SI ES MODIFICACION Y PRECARGA DATOS    
+                    if (Request.QueryString["id"] != null)
+                    {
+                        pokeSeleccionado = negocioPoke.Buscar(int.Parse(Request.QueryString["id"]));
+
+                        txtID.Text = pokeSeleccionado.Id.ToString();
+                        txtNumero.Text = pokeSeleccionado.Numero.ToString();
+                        txtNombre.Text = pokeSeleccionado.Nombre;
+                        txtDescripcion.Text = pokeSeleccionado.Descripcion;
+                        txtImagenUrl.Text = pokeSeleccionado.UrlImagen;
+                        ddlTipo.SelectedValue = pokeSeleccionado.Tipo.ID.ToString();
+                        ddlDebilidad.SelectedValue = pokeSeleccionado.Debilidad.ID.ToString();
+                        //falta el ddlEvolucion
+                        txtImagenUrl_TextChanged(sender, e);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Session.Add("Error", ex);
+                //redireccionar a una pantalla de error
+                throw;
             }
 
+        }
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Pokemon nuevo = new Pokemon();
+                PokemonNegocio negocio = new PokemonNegocio();
+
+                nuevo.Numero = int.Parse(txtNumero.Text);
+                nuevo.Nombre = txtNombre.Text;
+                nuevo.Descripcion = txtDescripcion.Text;
+                nuevo.UrlImagen = txtImagenUrl.Text;
+
+                nuevo.Tipo = new Elemento();
+                nuevo.Tipo.ID = int.Parse(ddlTipo.SelectedValue);
+                nuevo.Debilidad = new Elemento();
+                nuevo.Debilidad.ID = int.Parse(ddlDebilidad.SelectedValue);
+
+                if(Request.QueryString["id"] != null)
+                {
+                    nuevo.Id = int.Parse(txtID.Text);
+                    negocio.ModificarConSP(nuevo);
+                }
+                else
+                {
+                    negocio.AgregarConSP(nuevo);
+                }
+
+                Response.Redirect("ListaPokemon.aspx", false);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        protected void txtImagenUrl_TextChanged(object sender, EventArgs e)
+        {
+            imgPokemon.ImageUrl = txtImagenUrl.Text;
         }
     }
 }
