@@ -128,6 +128,34 @@ namespace Negocio
             }
         }
 
+        public void AgregarConSP(Pokemon nuevo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearProcedure("storedAltaPokemon");
+                datos.SetearParametro("@Numero", nuevo.Numero);
+                datos.SetearParametro("@Nombre", nuevo.Nombre);
+                datos.SetearParametro("@Descripcion", nuevo.Descripcion);
+                datos.SetearParametro("@UrlImagen", nuevo.UrlImagen);
+                datos.SetearParametro("@IdTipo", nuevo.Tipo.ID);
+                datos.SetearParametro("@IdDebilidad", nuevo.Debilidad.ID);
+                datos.SetearParametro("@IdEvolucion", nuevo.Tipo.ID);
+
+                datos.EjecutarAccion();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
         public void Modificar(Pokemon poke)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -151,6 +179,31 @@ namespace Negocio
                 throw;
             }
             finally {  datos.CerrarConexion();}
+        }
+
+        public void ModificarConSP(Pokemon poke)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearProcedure("storedModificarPokemon");
+                datos.SetearParametro("@Numero", poke.Numero);
+                datos.SetearParametro("@Nombre", poke.Nombre);
+                datos.SetearParametro("@Desc", poke.Descripcion);
+                datos.SetearParametro("@Img", poke.UrlImagen);
+                datos.SetearParametro("@IdTipo", poke.Tipo.ID);
+                datos.SetearParametro("@IdDebilidad", poke.Debilidad.ID);
+                datos.SetearParametro("@Id", poke.Id);
+
+                datos.EjecutarAccion();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally { datos.CerrarConexion(); }
         }
 
         public void Eliminar(int id)

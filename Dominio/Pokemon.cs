@@ -21,5 +21,7 @@ namespace Dominio
         public Elemento Tipo { get; set; }
 
         public Elemento Debilidad { get; set; }
+
+        //public Pokemon Evolucion { get; set; };
     }
 }
