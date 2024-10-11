@@ -31,5 +31,11 @@ namespace Pokedex_web
         {
             string valorID = ((Button)sender).CommandArgument;
         }
+
+        protected void btnDetalle_Click(object sender, EventArgs e)
+        {
+            string valorID = ((Button)sender).CommandArgument;
+            Response.Redirect("DetallePokemon.aspx?id=" + ((Button)sender).CommandArgument);
+        }
     }
 }
