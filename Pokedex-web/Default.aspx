@@ -34,8 +34,8 @@
         <asp:Repeater ID="repRepetidor" runat="server">
             <ItemTemplate>
 
-                <div class="col">
-                    <div class="card">
+                <div class="col mb-4">
+                    <div class="card h-100">
                         <img src="<%#Eval("UrlImagen") %>" class="card-img-top" alt="<%#Eval("Nombre") %>">
                         <div class="card-body">
                             <h5 class="card-title"><%# "# " + Eval("Numero") + " - " + Eval("Nombre") %> </h5>

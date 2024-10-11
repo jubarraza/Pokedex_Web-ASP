@@ -15,7 +15,7 @@ namespace Pokedex_web
         protected void Page_Load(object sender, EventArgs e)
         {
             txtID.Enabled = false;
-
+            
             try
             {
                 if (!IsPostBack)
@@ -44,6 +44,7 @@ namespace Pokedex_web
                     //REVISA SI ES MODIFICACION Y PRECARGA DATOS    
                     if (Request.QueryString["id"] != null)
                     {
+                        btnAceptar.Visible = false;
                         pokeSeleccionado = negocioPoke.Buscar(int.Parse(Request.QueryString["id"]));
 
                         txtID.Text = pokeSeleccionado.Id.ToString();
@@ -55,6 +56,13 @@ namespace Pokedex_web
                         ddlDebilidad.SelectedValue = pokeSeleccionado.Debilidad.ID.ToString();
                         //falta el ddlEvolucion
                         txtImagenUrl_TextChanged(sender, e);
+                        InhabilitarCampos();
+                    }
+                    else
+                    {
+                        btnEditar.Visible = false;
+                        btnEliminar.Visible = false;
+                       
                     }
                 }
             }
@@ -98,9 +106,10 @@ namespace Pokedex_web
                 Response.Redirect("ListaPokemon.aspx", false);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Session.Add("Error", ex.ToString());
+                //redireccionar a una pantalla de error
                 throw;
             }
         }
@@ -112,7 +121,51 @@ namespace Pokedex_web
 
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("ListaPokemon.aspx", false);
+            Response.Redirect("Default.aspx", false);
+        }
+
+        private void InhabilitarCampos()
+        {
+            txtNumero.Enabled = false;
+            txtNombre.Enabled = false;
+            txtDescripcion.Enabled = false;
+            txtImagenUrl.Enabled = false;
+            ddlTipo.Enabled = false;
+            ddlDebilidad.Enabled = false;
+            ddlEvolucion.Enabled = false;
+        }
+
+        private void HabilitarCampos()
+        {
+            txtNumero.Enabled = true;
+            txtNombre.Enabled = true;
+            txtDescripcion.Enabled = true;
+            txtImagenUrl.Enabled = true;
+            ddlTipo.Enabled = true;
+            ddlDebilidad.Enabled = true;
+            ddlEvolucion.Enabled = true;
+        }
+
+        protected void btnEditar_Click(object sender, EventArgs e)
+        {
+            HabilitarCampos();
+            btnEditar.Visible = false;
+            btnAceptar.Visible = true;
+        }
+
+        protected void btnEliminarConfirmado_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PokemonNegocio negocioPoke = new PokemonNegocio();
+                negocioPoke.Eliminar(int.Parse(txtID.Text));
+                Response.Redirect("Default.aspx", false);
+            }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex.ToString());
+                //redireccionar a una pantalla de error
+            }
         }
     }
 }
