@@ -27,11 +27,6 @@ namespace Pokedex_web
             
         }
 
-        protected void btnEjemplo_Click(object sender, EventArgs e)
-        {
-            string valorID = ((Button)sender).CommandArgument;
-        }
-
         protected void btnDetalle_Click(object sender, EventArgs e)
         {
             string valorID = ((Button)sender).CommandArgument;

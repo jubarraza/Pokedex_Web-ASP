@@ -109,5 +109,10 @@ namespace Pokedex_web
         {
             imgPokemon.ImageUrl = txtImagenUrl.Text;
         }
+
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("ListaPokemon.aspx", false);
+        }
     }
 }
