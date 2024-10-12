@@ -141,6 +141,24 @@ namespace Pokedex_web
         protected global::System.Web.UI.WebControls.Button btnEliminar;
 
         /// <summary>
+        /// Control btnDeshabilitar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnDeshabilitar;
+
+        /// <summary>
+        /// Control btnHabilitar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnHabilitar;
+
+        /// <summary>
         /// Control btnCancelar.
         /// </summary>
         /// <remarks>

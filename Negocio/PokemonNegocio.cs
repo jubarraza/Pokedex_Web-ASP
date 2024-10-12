@@ -86,6 +86,7 @@ namespace Negocio
                     aux.Debilidad = new Elemento();
                     aux.Debilidad.ID = (int)datos.Lector["IdDebilidad"];
                     aux.Debilidad.Descripcion = (string)datos.Lector["Debilidad"];
+                    aux.Activo = (bool)datos.Lector["Activo"];
 
                     lista.Add(aux);
                 }
@@ -396,6 +397,40 @@ namespace Negocio
             }
 
             return new Pokemon() ;
+        }
+
+        public void DeshabilitarPokemon(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearConsulta("UPDATE POKEMONS SET Activo = 0 WHERE Id = @Id");
+                datos.SetearParametro("@Id", id);
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public void HabilitarPokemon(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearConsulta("UPDATE POKEMONS SET Activo = 1 WHERE Id = @Id");
+                datos.SetearParametro("@Id", id);
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

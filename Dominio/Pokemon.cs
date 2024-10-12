@@ -23,5 +23,7 @@ namespace Dominio
         public Elemento Debilidad { get; set; }
 
         //public Pokemon Evolucion { get; set; };
+
+        public bool Activo { get; set; }
     }
 }

@@ -80,6 +80,8 @@
                 <asp:Button Text="Guardar" ID="btnAceptar" CssClass="btn btn-primary me-2" OnClick="btnAceptar_Click" runat="server" />
                 <asp:Button Text="Editar" ID="btnEditar" CssClass="btn btn-success me-2" OnClick="btnEditar_Click" runat="server" />
                 <asp:Button Text="Eliminar" ID="btnEliminar" CssClass="btn btn-danger me-2" OnClientClick="showModal(); return false" runat="server"/>
+                <asp:Button Text="Deshabilitar" ID="btnDeshabilitar" CssClass="btn btn-warning me-2" OnClick="btnDeshabilitar_Click" runat="server"/>
+                <asp:Button Text="Habilitar" ID="btnHabilitar" CssClass="btn btn-warning me-2" OnClick="btnHabilitar_Click" runat="server"/>
                 <asp:Button Text="Cancelar" ID="btnCancelar" CssClass="btn btn-secondary" OnClick="btnCancelar_Click" runat="server" />
             </div>
 

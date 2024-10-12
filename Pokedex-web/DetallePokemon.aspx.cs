@@ -15,7 +15,9 @@ namespace Pokedex_web
         protected void Page_Load(object sender, EventArgs e)
         {
             txtID.Enabled = false;
-            
+            btnHabilitar.Visible = false;
+            btnDeshabilitar.Visible = false;
+
             try
             {
                 if (!IsPostBack)
@@ -57,6 +59,17 @@ namespace Pokedex_web
                         //falta el ddlEvolucion
                         txtImagenUrl_TextChanged(sender, e);
                         InhabilitarCampos();
+
+                        if (pokeSeleccionado.Activo)
+                        {
+                            btnDeshabilitar.Visible = true;
+                            btnHabilitar.Visible = false;
+                        }
+                        else
+                        {
+                            btnDeshabilitar.Visible = false;
+                            btnHabilitar.Visible = true;
+                        }
                     }
                     else
                     {
@@ -159,6 +172,36 @@ namespace Pokedex_web
             {
                 PokemonNegocio negocioPoke = new PokemonNegocio();
                 negocioPoke.Eliminar(int.Parse(txtID.Text));
+                Response.Redirect("Default.aspx", false);
+            }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex.ToString());
+                //redireccionar a una pantalla de error
+            }
+        }
+
+        protected void btnDeshabilitar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PokemonNegocio negocioPoke = new PokemonNegocio();
+                negocioPoke.DeshabilitarPokemon(int.Parse(txtID.Text));
+                Response.Redirect("Default.aspx", false);
+            }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex.ToString());
+                //redireccionar a una pantalla de error
+            }
+        }
+
+        protected void btnHabilitar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PokemonNegocio negocioPoke = new PokemonNegocio();
+                negocioPoke.HabilitarPokemon(int.Parse(txtID.Text));
                 Response.Redirect("Default.aspx", false);
             }
             catch (Exception ex)

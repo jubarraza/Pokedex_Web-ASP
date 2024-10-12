@@ -16,7 +16,7 @@ namespace Pokedex_web
         protected void Page_Load(object sender, EventArgs e)
         {
             PokemonNegocio pokemonNegocio = new PokemonNegocio();
-            ListaPokemons = pokemonNegocio.ListarConSP();
+            ListaPokemons = pokemonNegocio.Listar();
 
             if (!IsPostBack)
             {
