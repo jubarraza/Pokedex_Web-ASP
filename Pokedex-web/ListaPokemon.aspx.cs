@@ -42,5 +42,55 @@ namespace Pokedex_web
             dgvPokemons.DataSource = listaFiltrada;
             dgvPokemons.DataBind();
         }
+
+        protected void chkFiltroAvanzado_CheckedChanged(object sender, EventArgs e)
+        {
+           txtFiltro.Enabled = !(chkFiltroAvanzado.Checked);
+
+            //carga inicial porque viene Nombre por deafult en el ddlCampos
+            ddlCriterio.Items.Add("Contiene");
+            ddlCriterio.Items.Add("Comienza con");
+            ddlCriterio.Items.Add("Termina con");
+        }
+
+        protected void btnBuscarFiltroAvanzado_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PokemonNegocio negocioPoke = new PokemonNegocio();
+                dgvPokemons.DataSource = negocioPoke.Filtrar(ddlCampo.SelectedItem.ToString(), ddlCriterio.SelectedItem.ToString(), txtFiltroAvanzado.Text, ddlEstado.SelectedItem.ToString());
+                dgvPokemons.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Session.Add("error", ex.ToString());
+                //redirigir a pagina de error
+            }
+        }
+
+        protected void btnLimparFiltroAvz_Click(object sender, EventArgs e)
+        {
+            ddlCampo.SelectedIndex = 0;
+            ddlCriterio.SelectedIndex = 0;
+            txtFiltroAvanzado.Text = "";
+            ddlEstado.SelectedIndex = 0;
+        }
+
+        protected void ddlCampo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ddlCriterio.Items.Clear();
+            if (ddlCampo.SelectedItem.ToString() == "Numero")
+            {
+                ddlCriterio.Items.Add("Igual a");
+                ddlCriterio.Items.Add("Mayor a");
+                ddlCriterio.Items.Add("Menor a");
+            }
+            else
+            {
+                ddlCriterio.Items.Add("Contiene");
+                ddlCriterio.Items.Add("Comienza con");
+                ddlCriterio.Items.Add("Termina con");
+            }
+        }
     }
 }
