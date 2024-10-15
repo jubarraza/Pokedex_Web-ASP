@@ -26,7 +26,7 @@
                         <div class="mb-3">
                             <label for="txtImagenUrl" class="form-label">Url Imagen</label>
                             <asp:TextBox runat="server" ID="txtImagenUrl" CssClass="form-control"
-                                AutoPostBack="true" OnTextChanged="txtImagenUrl_TextChanged" />
+                                AutoPostBack="true" OnTextChanged="txtImagenUrl_TextChanged" MaxLength="300" />
                         </div>
 
                     </ContentTemplate>
@@ -39,22 +39,22 @@
                 <div class="row mb-3">
                     <div class="col-6">
                         <label for="txtID" class="form-label">Id</label>
-                        <asp:TextBox runat="server" ID="txtID" CssClass="form-control" />
+                        <asp:TextBox runat="server" ID="txtID" CssClass="form-control" MaxLength="4" />
                     </div>
                     <div class="col-6">
                         <label for="txtNumero" class="form-label">Número</label>
-                        <asp:TextBox runat="server" ID="txtNumero" CssClass="form-control" />
+                        <asp:TextBox runat="server" ID="txtNumero" CssClass="form-control" MaxLength="4" />
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="txtNombre" class="form-label">Nombre</label>
-                    <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" />
+                    <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" MaxLength="50" />
                 </div>
 
                 <div class="mb-3">
                     <label for="txtDescripcion" class="form-label">Descripción</label>
-                    <asp:TextBox runat="server" TextMode="MultiLine" ID="txtDescripcion" CssClass="form-control" />
+                    <asp:TextBox runat="server" TextMode="MultiLine" ID="txtDescripcion" CssClass="form-control" MaxLength="50"/>
                 </div>
 
                 <div class="mb-3">
