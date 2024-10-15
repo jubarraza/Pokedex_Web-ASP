@@ -303,13 +303,13 @@ namespace Negocio
 
         }
 
-        public List<Pokemon> Filtrar(string campo, string criterio, string filtro)
+        public List<Pokemon> Filtrar(string campo, string criterio, string filtro, string estado)
         {
             List<Pokemon> lista = new List<Pokemon>();
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                string consulta = "SELECT p.Numero, p.Nombre, p.Descripcion, p.UrlImagen, e.Descripcion as Tipo, d.Descripcion as Debilidad, p.IdTipo, p.IdDebilidad, p.Id FROM POKEMONS p INNER JOIN ELEMENTOS e ON p.IdTipo = e.Id INNER JOIN ELEMENTOS d on p.IdDebilidad = d.Id WHERE p.Activo = 1 AND ";
+                string consulta = "SELECT p.Numero, p.Nombre, p.Descripcion, p.UrlImagen, e.Descripcion as Tipo, d.Descripcion as Debilidad, p.IdTipo, p.IdDebilidad, p.Id, p.Activo FROM POKEMONS p INNER JOIN ELEMENTOS e ON p.IdTipo = e.Id INNER JOIN ELEMENTOS d on p.IdDebilidad = d.Id ";
                 
                 if(campo == "Numero")
                 {
@@ -318,37 +318,75 @@ namespace Negocio
 
                         case "Mayor a":
 
-                            consulta += "p.Numero > " + filtro;
+                            consulta += "WHERE p.Numero > " + filtro;
 
                             break;
 
                         case "Menor a":
-                            consulta += "p.Numero < " + filtro;
+                            consulta += "WHERE p.Numero < " + filtro;
                             break;
 
                         case "Igual a":
-                            consulta += "p.Numero = " + filtro;
+                            consulta += "WHERE p.Numero = " + filtro;
                             break;
                     }
 
                 }
-                else
+                else if (campo == "Nombre")
                 {
                     switch (criterio)
                     {
                         case "Comienza con":
-                            consulta += "p."+ campo + " LIKE '" + filtro + "%'";
+                            consulta += "WHERE p.Nombre LIKE '" + filtro + "%'";
                             break;
 
                         case "Termina con":
-                            consulta += "p." + campo + " LIKE '%" + filtro + "'";
+                            consulta += "WHERE p.Nombre LIKE '%" + filtro + "'";
                             break;
 
                         case "Contiene":
-                            consulta += "p." + campo + " LIKE '%" + filtro + "%'";
+                            consulta += "WHERE p.Nombre LIKE '%" + filtro + "%'";
                             break;
                     }
                 }
+                else if(campo == "Tipo" || campo == "Debilidad")
+                {
+                    string letra;
+                    if (campo == "Tipo")
+                    {
+                        letra = "e";
+                    }
+                    else
+                    {
+                        letra = "d";
+                    }
+
+
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += "WHERE " + letra + ".Descripcion LIKE '" + filtro + "%'";
+                            break;
+
+                        case "Termina con":
+                            consulta += "WHERE " + letra + ".Descripcion LIKE '%" + filtro + "'";
+                            break;
+
+                        case "Contiene":
+                            consulta += "WHERE " + letra + ".Descripcion '%" + filtro + "%'";
+                            break;
+                    }
+                }
+
+                if(estado == "Activos")
+                {
+                    consulta += "AND p.Activo = 1";
+                }
+                else if(estado == "Inactivos")
+                {
+                    consulta += "AND p.Activo = 0";
+                }
+
 
                 datos.SetearConsulta(consulta);
                 datos.EjecutarLectura();
@@ -371,6 +409,8 @@ namespace Negocio
                     aux.Debilidad = new Elemento();
                     aux.Debilidad.ID = (int)datos.Lector["IdDebilidad"];
                     aux.Debilidad.Descripcion = (string)datos.Lector["Debilidad"];
+
+                    aux.Activo = (bool)datos.Lector["Activo"];
 
                     lista.Add(aux);
                 }
