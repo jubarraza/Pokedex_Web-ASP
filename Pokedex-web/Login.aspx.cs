@@ -19,6 +19,10 @@ namespace Pokedex_web
                 Usuario user = (Usuario)Session["usuario"];
                 lblUsuarioLogueado.Text = "Ya se encuentra logueado con el usuario: " + user.User;
             }
+            if(Request.QueryString["register"] == "success")
+            {
+                lblRegistroExitoso.Visible = true;
+            }
         }
 
         protected void btnIngresar_Click(object sender, EventArgs e)

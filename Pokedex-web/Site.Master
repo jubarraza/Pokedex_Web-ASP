@@ -20,7 +20,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="Default.aspx">PokeDex</a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -33,10 +33,28 @@
                             <a class="nav-link" href="ListaPokemon.aspx">Lista de Pokemon</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="Login.aspx">Login</a>
+                            <a class="nav-link" href="Login.aspx">Favoritos</a>
                         </li>
                     </ul>
                 </div>
+
+                <div class="d-flex pt-2 pb-2">
+                    <% if (Session["usuario"] == null)
+                        { %>
+                            <a href="Login.aspx" class="btn btn-success me-2">Login</a>
+                            <a href="RegistroUsuario.aspx" class="btn btn-primary m-auto me-3">Registrarse</a>
+                    <%
+                        }
+                        else
+                        {
+                    %>
+                            <asp:Button Text="Cerrar Sesion" ID="btnSalir" CssClass="btn btn-danger me-3" OnClick="btnSalir_Click" runat="server" />
+                            <asp:Label ID="lblUser" Text="UsuarioLogueado" CssClass="text-light m-auto me-3" runat="server" />
+                            <asp:Image ID="imgAvatar" Style="height: 40px; width: 40px; border-radius: 50%;"
+                                runat="server" CssClass="me-2" />
+                    <%} %>
+                </div>
+
             </div>
         </nav>
 

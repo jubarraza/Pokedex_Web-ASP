@@ -22,8 +22,26 @@ namespace Pokedex_web
 
         public bool UsuarioAdmin(Usuario user)
         {
-            UsuarioNegocio neg = new UsuarioNegocio();
-            return neg.UsuarioAdmin(user);
+            try
+            {
+                if (user != null)
+                {
+                    UsuarioNegocio neg = new UsuarioNegocio();
+                    return neg.UsuarioAdmin(user);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Session.Add("error", ex.ToString());
+                Response.Redirect("Error.aspx", false);
+                return false;
+            }
+           
+            
         }
 
         protected void btnMenuAdmin_Click(object sender, EventArgs e)
