@@ -45,5 +45,26 @@ namespace Negocio
 
             return false;
         }
+
+        public int RegistrarUsuario(Usuario nuevo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearProcedure("registrarUsuario");
+                datos.SetearParametro("@user", nuevo.User);
+                datos.SetearParametro("@email", nuevo.Email);
+                datos.SetearParametro("@pass", nuevo.Password);
+                datos.SetearParametro("@fechaNac", nuevo.FechaNacimiento);
+                datos.SetearParametro("@tipoUsuario", 1);
+
+                return datos.EjecutarAccionScalar();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

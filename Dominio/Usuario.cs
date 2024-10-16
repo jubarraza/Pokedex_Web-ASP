@@ -17,7 +17,13 @@ namespace Dominio
         public int Id { get; set; }
         public string User { get; set; }
         public string Password { get; set; }
+        public string Email { get; set; }
         public TipoUsuario TipoUsuario { get; set; }
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
+        public DateTime FechaNacimiento { get; set; }
+        public string ImagenPerfil { get; set; }
+        public bool Activo { get; set; }
 
         public Usuario()
         {
