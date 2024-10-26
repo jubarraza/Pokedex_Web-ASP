@@ -25,5 +25,7 @@ namespace Dominio
         //public Pokemon Evolucion { get; set; };
 
         public bool Activo { get; set; }
+
+        //cambio 1
     }
 }
